@@ -17,7 +17,8 @@ def p2pResAdv(sRho,P1,P2,boundary,step):
     res = 0
     distance = math.sqrt((x2-x1)**2 + (y2-y1)**2)
 
-    while
+    while true:
+        pass
     return res
 
 #Should return LUT of all resistance values at given point, relative to P0
@@ -31,7 +32,7 @@ print(pathRes)
 
 # read a library from a file
 # with open('example.GDS', 'rb') as stream:
-# with open('path.gds', 'rb') as stream:
+# with open('/Users/maxwellmcfarlane/github/PyScripts/path.gds', 'rb') as stream:
 #     lib = Library.load(stream)
 #
 # struc = lib.pop(0)
