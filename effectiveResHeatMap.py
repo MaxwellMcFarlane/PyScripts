@@ -21,14 +21,67 @@ def p2pResAdv(sRho,P1,P2,boundary,step):
         pass
     return res
 
+def checkInBound(point,boundary):
+    boundary.sort()
+    ref = boundary[0]
+    i = 1
+    while i < len(boundary):
+        if ref[0] > point[0] or point[0] > boundary[i][0]:
+            if ref[1] > point[1] or point[1] > boundary[i][1]:
+                #Both the x and y coordinate are outide the polygon
+                #print("Out of Bounds")
+                return False
+        i += 1
+    #print("In Bounds")
+    return True
+
+#transforms a given polygon into a 2D list based on unitSize specified
+def dividePolygon(boundary,unitSize):
+    boundary.sort()
+    i = 0; bottom_x = boundary[0][0]; bottom_y = boundary[0][1]; top_x = boundary[-1][0]; top_y = boundary[-1][1];
+    #Overestimate Boundary size for easier division & checking
+    while i < len(boundary):
+        if bottom_x > boundary[i][0]:
+            bottom_x = boundary[i][0]
+        if bottom_y > boundary[i][1]:
+            bottom_y = boundary[i][1]
+        if top_x < boundary[i][0]:
+            top_x = boundary[i][0]
+        if top_y < boundary[i][1]:
+            top_y = boundary[i][1]
+        i += 1
+
+    bottom = [bottom_x,bottom_y]; top = [top_x,top_y]
+    point = bottom
+    map = []
+    while point[1] <= top_y:
+        while point[0] <= top_x:
+            if checkInBound(point,boundary):
+                # print(point)
+                map.append(point)
+                print('/n')
+                print(map)
+            point[0] += unitSize
+        point[1] += unitSize
+        point[0] = bottom_x
+    return map
+
 #Should return LUT of all resistance values at given point, relative to P0
 #using the p2pResAdv function within a resolution of given points
 def meshResistance(sRho,W,L,res,refP):
     pass
 
-pathRes = p2pResistance(12,200,3)
-pathRes = p2pResAdv(12,[0,0],[5,5],[[0,0][200,0][200,3][0,3]],1)
-print(pathRes)
+#pathRes = p2pResistance(12,200,3)
+list = [[0,0],[10,0],[10,3],[0,3]]
+#list = [[0,0],[10,0],[8,3],[0,3]]
+map = dividePolygon(list,1)
+# print(map)
+# map = dividePolygon(list,1)
+# checkInBound([1,3],list)
+# checkInBound([2,2],list)
+# checkInBound([12,20],list)
+# pathRes = p2pResAdv(12,[0,0],[5,5],[[0,0],[200,0],[200,3],[0,3]],1)
+#print(pathRes)
 
 # read a library from a file
 # with open('example.GDS', 'rb') as stream:
